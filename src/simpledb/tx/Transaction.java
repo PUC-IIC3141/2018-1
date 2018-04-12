@@ -127,6 +127,19 @@ public class Transaction {
       return buff.getString(offset);
    }
    
+   public byte getByte(Block blk, int offset) {
+	  concurMgr.sLock(blk);
+      Buffer buff = myBuffers.getBuffer(blk);
+      return buff.getByte(offset);
+   }
+   
+   public void setByte(Block blk, int offset, byte val) {
+	  concurMgr.xLock(blk);
+	  Buffer buff = myBuffers.getBuffer(blk);
+      int lsn = recoveryMgr.setByte(buff, offset, val);
+	  buff.setByte(offset, val, txnum, lsn);
+   }
+   
    /**
     * Stores an integer at the specified offset 
     * of the specified block.

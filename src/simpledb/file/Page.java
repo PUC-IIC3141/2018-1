@@ -51,6 +51,8 @@ public class Page {
     */
    public static final int INT_SIZE = Integer.SIZE / Byte.SIZE;
    
+   public static final int BYTE_SIZE = Byte.SIZE;
+   
    /**
     * The maximum size, in bytes, of a string of length n.
     * A string is represented as the encoding of its characters,
@@ -106,6 +108,16 @@ public class Page {
     */
    public synchronized Block append(String filename) {
       return filemgr.append(filename, contents);
+   }
+   
+   public synchronized byte getByte(int offset) {
+      contents.position(offset);
+      return contents.get();
+   }
+   
+   public synchronized void setByte(int offset, byte val) {
+      contents.position(offset);
+      contents.put(val);
    }
    
    /**

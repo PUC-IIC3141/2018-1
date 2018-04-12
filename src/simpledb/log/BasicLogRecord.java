@@ -30,6 +30,12 @@ public class BasicLogRecord {
       this.pos = pos;
    }
    
+   public byte nextByte() {
+      byte result = pg.getByte(pos);
+      pos += BYTE_SIZE;
+      return result;
+   }
+   
    /**
     * Returns the next value of the current log record, 
     * assuming it is an integer.

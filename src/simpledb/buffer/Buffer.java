@@ -36,6 +36,10 @@ public class Buffer {
     */
    public Buffer() {}
    
+   public byte getByte(int offset) {
+      return contents.getByte(offset);
+   }
+   
    /**
     * Returns the integer value at the specified offset of the
     * buffer's page.
@@ -58,6 +62,14 @@ public class Buffer {
     */
    public String getString(int offset) {
       return contents.getString(offset);
+   }
+   
+   
+   public void setByte(int offset, byte val, int txnum, int lsn) {
+	  modifiedBy = txnum;
+	  if (lsn >= 0)
+		  logSequenceNumber = lsn;
+	  contents.setByte(offset, val);
    }
 
    /**

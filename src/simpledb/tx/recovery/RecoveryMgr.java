@@ -52,6 +52,15 @@ public class RecoveryMgr {
       SimpleDB.logMgr().flush(lsn);
 
    }
+   
+   public int setByte(Buffer buff, int offset, byte newval) {
+      byte oldval = buff.getByte(offset);
+      Block blk = buff.block();
+      if (isTempBlock(blk))
+         return -1;
+      else
+         return new SetByteRecord(txnum, blk, offset, oldval).writeToLog();
+   }
 
    /**
     * Writes a setint record to the log, and returns its lsn.
